@@ -113,7 +113,7 @@ struct Cryon {
     int lenth;
 };
 
-void creating_cryon(){
+void creating_cryon() {
     Cryon cr{ "plastic", "green", 14 };
 }
 
@@ -186,28 +186,28 @@ struct Student {
     vector<Subject> subject;
 };
 
-struct All_students{
+struct All_students {
     vector<Student> students_holder;
 
     void cout_all_students_information(All_students _all_students) { //ф-ия для вывода информации обо всех студентах
         for (Student some_student : _all_students.students_holder) { //первый форич нужен чтобы ввывести информацию обо всех студентах, а не только об одном
             PRINT("Вот информация о студенте обладающим студаком номер " << some_student.studak_number << ":")
-            PRINT("Имя: " << some_student.student_name)
-            PRINT("Фамилия: " << some_student.student_sname)
-            PRINT("Номер студенческого: " << some_student.studak_number)
-            PRINT("Оценки по предметам: ")
-            for (Subject some_subject : some_student.subject) { //второй для того, чтобы ф-ия пробежалась по всем предметам, а не только по одному
-                if (!some_subject.grades.empty()) {
-                    cout << "Оценки по " << some_subject.subject_name << ":";
-                    for (short grade : some_subject.grades) { //третий для того, чтобы ф-ия вывела все оценки в предмете, а не только одну
-                        cout << ' ' << grade;
+                PRINT("Имя: " << some_student.student_name)
+                PRINT("Фамилия: " << some_student.student_sname)
+                PRINT("Номер студенческого: " << some_student.studak_number)
+                PRINT("Оценки по предметам: ")
+                for (Subject some_subject : some_student.subject) { //второй для того, чтобы ф-ия пробежалась по всем предметам, а не только по одному
+                    if (!some_subject.grades.empty()) {
+                        cout << "Оценки по " << some_subject.subject_name << ":";
+                        for (short grade : some_subject.grades) { //третий для того, чтобы ф-ия вывела все оценки в предмете, а не только одну
+                            cout << ' ' << grade;
+                        }
+                        PRINT("    " << "Средняя оценка по этому предмету: " << some_subject.avg_calculating())
                     }
-                    PRINT("    " << "Средняя оценка по этому предмету: " << some_subject.avg_calculating())
+                    else {
+                        PRINT("Оценки и средний балл по " << some_subject.subject_name << " отсутствуют, вы их не ввели")
+                    }
                 }
-                else {
-                    PRINT("Оценки и средний балл по " << some_subject.subject_name << " отсутствуют, вы их не ввели")
-                }
-            }
             PRINT(' ')
         }
     }
@@ -215,7 +215,7 @@ struct All_students{
 
 
 
-void creating_first_student(All_students _all_students) {
+All_students creating_first_student(All_students _all_students) {
     Subject math{ "math" };
     Subject enslish{ "enslish" };
     Subject phisic{ "phisic" };
@@ -223,11 +223,11 @@ void creating_first_student(All_students _all_students) {
     math.grades.push_back(9);
     math.grades.push_back(10);
     math.grades.push_back(11);
-    
+
     enslish.grades.push_back(4);
     enslish.grades.push_back(8);
     enslish.grades.push_back(7);
-    
+
     phisic.grades.push_back(11);
     phisic.grades.push_back(3);
     phisic.grades.push_back(9);
@@ -241,9 +241,10 @@ void creating_first_student(All_students _all_students) {
     ivan.subject.push_back(phisic);
 
     _all_students.students_holder.push_back(ivan);
+    return _all_students;
 }
 
-void creating_new_student(All_students all_students) {
+All_students creating_new_student(All_students all_students) {
     Subject math{ "math" };
     Subject enslish{ "enslish" };
     Subject phisic{ "phisic" };
@@ -252,70 +253,71 @@ void creating_new_student(All_students all_students) {
     tmp_st->subject.push_back(enslish);
     tmp_st->subject.push_back(phisic);
     PRINT("Вы находитесь в разделе добавления нового студента.\nЧтобы досрочно покинуть этот раздел введите q")
-    PRINT("Если вы не введёте первые 3 пункта, студент не будет добавлен.") //думаю это достаточно логично
-    string user_string;
-    bool special_check[3] = {0, 0, 0};
+        PRINT("Если вы не введёте первые 3 пункта, студент не будет добавлен.") //думаю это достаточно логично
+        string user_string;
+    bool special_check[3] = { 0, 0, 0 };
     do {
         PRINT("Введите имя добовляемого студента: ")
-        cin >> user_string;
+            cin >> user_string;
         if (user_string == "q" || user_string == "Q") { break; }//данная строка нужна чтобы можно было перестать добавлять студента в любой момент
         else { special_check[0] = 1; }//а данная шина для того, чтобы ф-ия не пыталась добавить недоделанного студента
         tmp_st->student_name = user_string;
 
         PRINT("Введите фамилию добовляемого студента: ")
-        cin >> user_string;
+            cin >> user_string;
         if (user_string == "q" || user_string == "Q") { break; }
         else { special_check[1] = 1; }
         tmp_st->student_sname = user_string;
 
         PRINT("Введите номер студенческого добовляемого студента(ТОЛЬКО ЦИФРЫ): ")
-        cin >> user_string;
+            cin >> user_string;
         if (user_string == "q" || user_string == "Q") { break; }
         else { special_check[2] = 1; }
         tmp_st->studak_number = stoi(user_string);
 
         do { //ещё один дувайл чтобы была возможность пропустить сегмет выставления оценок
-            short user_choise; 
+            short user_choise;
             short user_num;
             PRINT("Выставить оценки по всем предметам(1) или пропустить этот пункт(0)?")
-            cin >> user_choise;
+                cin >> user_choise;
             if (user_choise == 1) {
                 for (short counter = 0; counter < 3; counter++) {
                     PRINT("Сколько вы желаете выставить оценок по " << tmp_st->subject[counter].subject_name)
-                    cin >> user_choise;
+                        cin >> user_choise;
                     PRINT("Хорошо, вводите их через enter")
-                    for (short i = 0; i < user_choise; i++) {
-                        cin >> user_num;
-                        tmp_st->subject[counter].grades.push_back(user_num);
-                    }
+                        for (short i = 0; i < user_choise; i++) {
+                            cin >> user_num;
+                            tmp_st->subject[counter].grades.push_back(user_num);
+                        }
                 }
-                
+
             }
             break;
         } while (user_string != "q" || user_string != "Q");
         break;
     } while (user_string != "q" || user_string != "Q");
-    
+
     if (special_check[0] == 1 && special_check[1] == 1 && special_check[2] == 1) { //запись студента в вектор только в случае наличия имени, фамилии и номера студака
         all_students.students_holder.push_back(*tmp_st);
     }
+    return all_students;
     delete tmp_st;
 }
 
 void work_with_students() {
     All_students all_students; //создание структуры, хранящей в себе метод вывода информации всех студентов, а так же вектор студентов
-    creating_first_student(all_students); //добавление в эту структуру первого студента согласно тз
+    all_students = creating_first_student(all_students); //добавление в эту структуру первого студента согласно тз
     string user_choise; //от греха подальше именно строка, чтобы дувайл чётко знал когда ему заканчиваться
     do {
         PRINT("Что бы вы хотели сделать?")
-        PRINT("0 - Вывести информацию обо всех студентах")
-        PRINT("1 - Добавить информацию о новом студенте")
-        PRINT("2 - завершить программу")
-        cin >> user_choise;
+            PRINT("0 - Вывести информацию обо всех студентах")
+            PRINT("1 - Добавить информацию о новом студенте")
+            PRINT("2 - завершить программу")
+            cin >> user_choise;
         switch (stoi(user_choise))
         {
         case 0: all_students.cout_all_students_information(all_students); break;
-        case 1: creating_new_student(all_students); break;
+        case 1: all_students = creating_new_student(all_students); break;
         case 2: break; break;
         default: user_choise = "2";
         }
